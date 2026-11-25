@@ -1,0 +1,522 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#ffffff">
+<title>Server Victor</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap');
+
+:root {
+  --red:#e63946;
+  --dark:#24242b;
+  --muted:#777782;
+  --bg:#fafafa;
+}
+
+* {
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Outfit,sans-serif;
+}
+
+body {
+  background:var(--bg);
+  color:var(--dark);
+  overflow:hidden;
+  height:100vh;
+  height:100dvh;
+}
+
+button {cursor:pointer}
+a {text-decoration:none;color:inherit}
+
+header {
+  height:72px;
+  padding:0 6%;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  background:#ffffffed;
+  border-bottom:1px solid #eee;
+  position:relative;
+  z-index:10;
+}
+
+.logo {font-size:22px;font-weight:900}
+.logo span {color:var(--red)}
+
+nav {
+  display:flex;
+  gap:8px;
+}
+
+nav button {
+  background:transparent;
+  border:0;
+  padding:10px 13px;
+  border-radius:10px;
+  color:#666;
+  font-weight:700;
+  font-size:13px;
+  transition:.25s;
+}
+
+nav button:hover,
+nav button.active {
+  background:#ffebed;
+  color:var(--red);
+}
+
+.discord {
+  background:var(--red)!important;
+  color:white!important;
+  border-radius:11px;
+  padding:11px 17px!important;
+  font-weight:800;
+}
+
+#app {
+  height:calc(100dvh - 72px);
+  position:relative;
+  overflow:hidden;
+}
+
+.page {
+  display:none;
+  height:100%;
+  width:100%;
+  padding:35px 8%;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  animation:enter .45s ease;
+}
+
+.page.active {display:flex}
+
+.content {
+  width:100%;
+  max-width:1100px;
+}
+
+.hero {
+  background:
+  radial-gradient(circle at 90% 30%,#ffdddd,transparent 35%),
+  linear-gradient(120deg,#fff,#fff5f5);
+}
+
+.hero .content {position:relative}
+
+.tag {
+  display:inline-block;
+  padding:8px 15px;
+  border-radius:30px;
+  background:#ffe6e8;
+  color:var(--red);
+  font-size:12px;
+  font-weight:800;
+  margin-bottom:20px;
+}
+
+h1 {
+  font-size:clamp(48px,8vw,85px);
+  line-height:1;
+  letter-spacing:-3px;
+  font-weight:900;
+}
+
+h1 span {color:var(--red)}
+
+.description {
+  color:var(--muted);
+  max-width:550px;
+  line-height:1.7;
+  margin:20px 0 27px;
+}
+
+.main-btn {
+  display:inline-block;
+  background:var(--red);
+  color:white;
+  padding:13px 21px;
+  border-radius:11px;
+  font-weight:800;
+  border:0;
+  transition:.3s;
+}
+
+.main-btn:hover {
+  transform:translateY(-3px);
+  box-shadow:0 8px 25px #e6394644;
+}
+
+.outline-btn {
+  display:inline-block;
+  padding:12px 20px;
+  border:1px solid #ddd;
+  border-radius:11px;
+  font-weight:700;
+  margin-left:8px;
+}
+
+.decoration {
+  position:absolute;
+  right:5%;
+  top:15%;
+  font-size:180px;
+  color:#e6394617;
+  animation:float 5s infinite ease-in-out;
+}
+
+.section-title {
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.section-title small {
+  color:var(--red);
+  font-weight:800;
+  letter-spacing:2px;
+}
+
+.section-title h2 {
+  font-size:clamp(29px,5vw,43px);
+  font-weight:900;
+  margin:8px 0;
+}
+
+.section-title p {
+  color:var(--muted);
+  font-size:14px;
+}
+
+.cards {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:14px;
+}
+
+.card {
+  background:white;
+  border:1px solid #eee;
+  padding:20px;
+  border-radius:17px;
+  transition:.3s;
+}
+
+.card:hover {
+  transform:translateY(-5px);
+  border-color:#ffb7be;
+  box-shadow:0 10px 25px #00000008;
+}
+
+.card-icon {
+  width:43px;
+  height:43px;
+  display:grid;
+  place-items:center;
+  background:#fff0f1;
+  border-radius:12px;
+  font-size:21px;
+  margin-bottom:11px;
+}
+
+.card h3 {font-size:17px;margin-bottom:6px}
+.card p {font-size:12px;color:var(--muted);line-height:1.6}
+
+.community {background:#fff}
+.recruitment {background:#fff4f4}
+.rules {background:#fff}
+
+.rules-list {
+  max-width:570px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.rule {
+  background:#fafafa;
+  border:1px solid #eee;
+  padding:15px;
+  border-radius:12px;
+  font-weight:600;
+  font-size:14px;
+}
+
+.rule span {color:#20a56a;margin-right:8px}
+
+.notice {
+  text-align:center;
+  color:var(--red);
+  font-weight:800;
+  font-size:13px;
+  margin-top:20px;
+}
+
+.center {text-align:center}
+
+footer {
+  position:absolute;
+  bottom:12px;
+  width:100%;
+  text-align:center;
+  font-size:11px;
+  color:#888;
+}
+
+.music-btn {
+  position:fixed;
+  bottom:20px;
+  right:20px;
+  z-index:30;
+  border:0;
+  border-radius:30px;
+  padding:12px 17px;
+  background:var(--red);
+  color:white;
+  font-weight:800;
+  box-shadow:0 5px 20px #e6394644;
+}
+
+.music-panel {
+  display:none;
+  position:fixed;
+  z-index:29;
+  right:15px;
+  bottom:75px;
+  width:250px;
+  padding:10px;
+  background:white;
+  border:1px solid #eee;
+  border-radius:15px;
+  box-shadow:0 10px 35px #0002;
+}
+
+.music-panel.open {display:block}
+
+.music-panel iframe {
+  display:block;
+  width:100%;
+  height:200px;
+  border:0;
+  border-radius:10px;
+}
+
+.music-panel p {
+  font-size:11px;
+  color:var(--muted);
+  padding:7px 2px 2px;
+}
+
+@keyframes enter {
+  from {opacity:0;transform:translateY(15px)}
+  to {opacity:1;transform:translateY(0)}
+}
+
+@keyframes float {
+  0%,100% {transform:translateY(0) rotate(0)}
+  50% {transform:translateY(-18px) rotate(8deg)}
+}
+
+@media(max-width:750px) {
+  header {
+    height:auto;
+    min-height:65px;
+    padding:10px 4%;
+    flex-direction:column;
+    gap:9px;
+  }
+
+  nav {
+    width:100%;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:3px;
+  }
+
+  nav button {
+    font-size:11px;
+    padding:8px;
+  }
+
+  #app {height:calc(100dvh - 105px)}
+
+  .page {padding:20px 5%}
+
+  .cards {grid-template-columns:repeat(2,1fr);gap:9px}
+  .card {padding:12px}
+  .card-icon {width:32px;height:32px;font-size:17px;margin-bottom:6px}
+  .card h3 {font-size:14px}
+  .card p {font-size:11px}
+  .section-title {margin-bottom:18px}
+  .decoration {font-size:100px;right:0;top:5%}
+  .rules-list {gap:7px}
+  .rule {padding:10px;font-size:12px}
+  footer {bottom:5px}
+}
+
+@media(max-height:650px) {
+  .page {padding-top:10px;padding-bottom:10px}
+  .section-title {margin-bottom:12px}
+  .card {padding:10px}
+  .card-icon {margin-bottom:5px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SERVER <span>VICTOR.</span></div>
+
+  <nav>
+    <button class="active" data-page="inicio">Inicio</button>
+    <button data-page="rp">RP</button>
+    <button data-page="comunidad">Comunidad</button>
+    <button data-page="reclutamiento">Staff</button>
+    <button data-page="normas">Normas</button>
+    <a class="main-btn discord" href="https://discord.gg/njshCYRh" target="_blank">Discord ↗</a>
+  </nav>
+</header>
+
+<div id="app">
+
+<section class="page hero active" id="inicio">
+  <div class="content">
+    <span class="tag">✦ BIENVENIDO A SERVER VICTOR</span>
+    <h1>UN LUGAR<br>PARA <span>CONECTAR.</span></h1>
+    <p class="description">
+      Conoce gente nueva, juega, comparte memes,
+      participa en Roleplay y forma parte de una
+      comunidad llena de diversión.
+    </p>
+    <button class="main-btn" onclick="go('comunidad')">Conocer comunidad →</button>
+    <a href="https://discord.gg/njshCYRh" class="outline-btn" target="_blank">Unirme ↗</a>
+  </div>
+  <div class="decoration">⚔</div>
+  <footer>👑 Creado por Víctor · 2026</footer>
+</section>
+
+<section class="page" id="rp">
+  <div class="content">
+    <div class="section-title">
+      <small>NUESTRA EXPERIENCIA</small>
+      <h2>Roleplay y diversión</h2>
+      <p>Mucho más que un simple servidor.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><div class="card-icon">🎭</div><h3>Roleplay</h3><p>Crea historias y vive experiencias con otros miembros.</p></article>
+      <article class="card"><div class="card-icon">🎮</div><h3>Videojuegos</h3><p>Comparte tus juegos favoritos y encuentra compañeros.</p></article>
+      <article class="card"><div class="card-icon">💬</div><h3>Conversaciones</h3><p>Conoce gente nueva y participa en la comunidad.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="page community" id="comunidad">
+  <div class="content">
+    <div class="section-title">
+      <small>LA COMUNIDAD</small>
+      <h2>¿Qué gente buscamos?</h2>
+      <p>¡Todos son bienvenidos!</p>
+    </div>
+    <div class="cards">
+      <article class="card"><div class="card-icon">🗣️</div><h3>Sociables</h3><p>Personas que disfruten conversar.</p></article>
+      <article class="card"><div class="card-icon">😂</div><h3>Memes</h3><p>Gente que comparta humor y diversión.</p></article>
+      <article class="card"><div class="card-icon">🎨</div><h3>Artistas</h3><p>Personas creativas y diseñadores.</p></article>
+      <article class="card"><div class="card-icon">🎮</div><h3>Jugadores</h3><p>Fans de los videojuegos.</p></article>
+      <article class="card"><div class="card-icon">🌸</div><h3>Anime</h3><p>Comparte tus gustos y recomendaciones.</p></article>
+      <article class="card"><div class="card-icon">⭐</div><h3>Participativos</h3><p>Personas con ganas de participar.</p></article>
+    </div>
+    <p class="notice">💀 Cuidado con los que mandan 300 memes seguidos.</p>
+  </div>
+</section>
+
+<section class="page recruitment" id="reclutamiento">
+  <div class="content">
+    <div class="section-title">
+      <small>ÚNETE AL EQUIPO</small>
+      <h2>¡Reclutamiento!</h2>
+      <p>Buscamos personas que quieran ayudar.</p>
+    </div>
+    <div class="cards">
+      <article class="card"><div class="card-icon">🗡️</div><h3>Cazadores</h3><p>Ayudan con actividades y convivencia.</p></article>
+      <article class="card"><div class="card-icon">🎬</div><h3>Editores de canales</h3><p>Aportan diseños, ediciones e ideas.</p></article>
+      <article class="card"><div class="card-icon">🛡️</div><h3>Moderadores</h3><p>Ayudan a mantener el orden.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="page rules" id="normas">
+  <div class="content">
+    <div class="section-title">
+      <small>CONVIVENCIA</small>
+      <h2>Unas cuantas cosas</h2>
+      <p>Para que todos podamos disfrutar.</p>
+    </div>
+    <div class="rules-list">
+      <div class="rule"><span>✔</span>Respeta a los demás.</div>
+      <div class="rule"><span>✔</span>Evita peleas innecesarias.</div>
+      <div class="rule"><span>✔</span>No hagas spam.</div>
+      <div class="rule"><span>✔</span>Sigue las normas.</div>
+      <div class="rule"><span>✔</span>Diviértete.</div>
+    </div>
+    <div class="center" style="margin-top:25px">
+      <a href="https://discord.gg/njshCYRh" class="main-btn" target="_blank">¡Entrar al servidor! ↗</a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<div class="music-panel" id="musicPanel">
+  <iframe id="ytPlayer"
+    title="Música de Server Victor"
+    allow="autoplay; encrypted-media; picture-in-picture"
+    allowfullscreen>
+  </iframe>
+  <p>♫ Música de Server Victor · YouTube</p>
+</div>
+
+<button class="music-btn" onclick="toggleMusic()">♫ Música</button>
+
+<script>
+function go(id) {
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+
+  document.querySelectorAll('nav button').forEach(btn => {
+    btn.classList.toggle('active',btn.dataset.page === id);
+  });
+
+  document.getElementById(id).classList.add('active');
+}
+
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => go(btn.dataset.page));
+});
+
+let musicLoaded = false;
+
+function toggleMusic() {
+  const panel = document.getElementById('musicPanel');
+  const player = document.getElementById('ytPlayer');
+
+  panel.classList.toggle('open');
+
+  if (!musicLoaded && panel.classList.contains('open')) {
+    player.src =
+      'https://www.youtube.com/embed/VzmtIUmjkTo?autoplay=1&playsinline=1';
+    musicLoaded = true;
+  }
+}
+</script>
+
+</body>
+</html>
